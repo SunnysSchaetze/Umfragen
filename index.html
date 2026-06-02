@@ -3,41 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    html {
+      background-color: #ff7f00;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
+      min-height: calc(100vh - 20px);
       background-color: #000000;
       color: orange;
+
+      border-radius: 25px;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .textbox {
-      background-color: #000000;
-      color: orange;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 10px;
       width: 80%;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 800px;
+      padding: 20px;
+      box-sizing: border-box;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 300px;
-      box-sizing: border-box;
+
+      text-align: center;
     }
 
     h3 {
-      text-align: center;
       font-size: 24px;
+      margin-bottom: 25px;
     }
 
     ul {
       list-style-type: none;
-      padding-left: 0;
-      text-align: center;
+      padding: 0;
+      margin: 0;
     }
 
     li {
@@ -49,22 +60,27 @@
       color: #ffcc80;
       text-decoration: none;
       font-weight: bold;
-      transition: color 0.3s, text-decoration 0.3s;
+      transition: color 0.3s;
     }
 
     a:hover {
-      text-decoration: none;
-      color: #cc6600;
+      color: #ff7f00;
     }
   </style>
+
   <title>Umfragen</title>
 </head>
 <body>
 
   <div class="textbox">
     <h3>Hier gibt es immer spannende Umfragen!</h3>
+
     <ul>
-      <li>📝 <a href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage" target="_blank">Zur Umfrage</a></li>
+      <li>
+        📝 <a href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage" target="_blank">
+          Zur Umfrage
+        </a>
+      </li>
     </ul>
   </div>
 
