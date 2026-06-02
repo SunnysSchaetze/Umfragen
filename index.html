@@ -59,11 +59,35 @@ a:hover {
     color: #ff7f00;
 }
 
-.chart {
+/* OVERLAY */
+
+#overlay {
     position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.scene {
+    position: relative;
+    width: 320px;
+    height: 160px;
+}
+
+/* CHART */
+
+.chart {
+    position: relative;
     width: 320px;
     height: 160px;
     opacity: 1;
@@ -163,18 +187,25 @@ svg {
 
 </div>
 
+<div id="overlay">
+    <div class="scene">
+        <div class="chart" id="chart"></div>
+    </div>
+</div>
+
 <script>
 const link = document.getElementById("surveyLink");
+const overlay = document.getElementById("overlay");
 
 const values = [30, 80, 50, 100, 60, 90, 40];
 
 link.addEventListener("click", function(e) {
     e.preventDefault();
 
-    document.querySelectorAll(".chart").forEach(el => el.remove());
+    overlay.classList.add("active");
 
-    const chart = document.createElement("div");
-    chart.className = "chart";
+    const chart = document.getElementById("chart");
+    chart.innerHTML = "";
 
     const bars = document.createElement("div");
     bars.className = "bars";
@@ -230,8 +261,6 @@ link.addEventListener("click", function(e) {
     chart.appendChild(svg);
     chart.appendChild(scan);
 
-    document.body.appendChild(chart);
-
     setTimeout(() => {
         path.classList.add("draw");
     }, 300);
@@ -240,7 +269,8 @@ link.addEventListener("click", function(e) {
         chart.classList.add("fade-out");
 
         setTimeout(() => {
-            chart.remove();
+            overlay.classList.remove("active");
+            chart.innerHTML = "";
         }, 600);
 
     }, 1200);
