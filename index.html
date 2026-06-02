@@ -1,88 +1,255 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    html {
-      background-color: #ff7f00;
-      padding: 10px;
-      box-sizing: border-box;
+<title>Umfragen</title>
+
+<style>
+html {
+    background-color: #ff7f00;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: calc(100vh - 20px);
+    background-color: #000000;
+    color: orange;
+    font-family: Arial, sans-serif;
+    border-radius: 25px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textbox {
+    text-align: center;
+    padding: 20px;
+}
+
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    font-size: 1.2em;
+}
+
+a {
+    color: #ffcc80;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #ff7f00;
+}
+
+.chart {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    height: 160px;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+.chart.fade-out {
+    opacity: 0;
+}
+
+.bars {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.bar {
+    width: 14px;
+    background: orange;
+    box-shadow: 0 0 10px orange;
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 0.5s ease;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.line {
+    fill: none;
+    stroke: #ffcc80;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 6px orange);
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+}
+
+.draw {
+    animation: drawLine 1.2s ease forwards;
+}
+
+@keyframes drawLine {
+    to {
+        stroke-dashoffset: 0;
     }
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      min-height: calc(100vh - 20px);
-      background-color: #000000;
-      color: orange;
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #ffcc80,
+        orange,
+        #ffcc80,
+        transparent
+    );
+    box-shadow: 0 0 12px orange;
+    opacity: 0.8;
+    animation: scan 1.8s linear forwards;
+}
 
-      border-radius: 25px;
-      overflow: hidden;
+@keyframes scan {
+    0%   { transform: translateY(0px); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateY(160px); opacity: 0; }
+}
+</style>
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .textbox {
-      width: 80%;
-      max-width: 800px;
-      padding: 20px;
-      box-sizing: border-box;
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      text-align: center;
-    }
-
-    h3 {
-      font-size: 24px;
-      margin-bottom: 25px;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    li {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-
-    a {
-      color: #ffcc80;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-
-    a:hover {
-      color: #ff7f00;
-    }
-  </style>
-
-  <title>Umfragen</title>
 </head>
+
 <body>
 
-  <div class="textbox">
+<div class="textbox">
+
     <h3>Hier gibt es immer spannende Umfragen!</h3>
 
     <ul>
-      <li>
-        📝 <a href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage" target="_blank">
-          Zur Umfrage
-        </a>
-      </li>
+        <li>
+            📝
+            <a id="surveyLink" href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage">
+                Zur Umfrage
+            </a>
+        </li>
     </ul>
-  </div>
+
+</div>
+
+<script>
+const link = document.getElementById("surveyLink");
+
+const values = [30, 80, 50, 100, 60, 90, 40];
+
+link.addEventListener("click", function(e) {
+    e.preventDefault();
+
+    document.querySelectorAll(".chart").forEach(el => el.remove());
+
+    const chart = document.createElement("div");
+    chart.className = "chart";
+
+    const bars = document.createElement("div");
+    bars.className = "bars";
+
+    const scan = document.createElement("div");
+    scan.className = "scan-line";
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("width", "320");
+    svg.setAttribute("height", "160");
+
+    const path = document.createElementNS(svgNS, "path");
+    path.classList.add("line");
+
+    const maxVal = Math.max(...values);
+    const chartHeight = 140;
+    const step = 40;
+
+    const scaleY = (val) => (val / maxVal) * chartHeight;
+
+    let points = [];
+
+    values.forEach((val, i) => {
+
+        const h = scaleY(val);
+
+        const bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.height = h + "px";
+
+        setTimeout(() => {
+            bar.style.transform = "scaleY(1)";
+        }, i * 120);
+
+        bars.appendChild(bar);
+
+        const x = i * step + 20;
+        const y = chartHeight - h;
+
+        points.push({ x, y });
+    });
+
+    let d = "";
+    points.forEach((p, i) => {
+        d += i === 0 ? `M ${p.x} ${p.y}` : ` L ${p.x} ${p.y}`;
+    });
+
+    path.setAttribute("d", d);
+
+    svg.appendChild(path);
+    chart.appendChild(bars);
+    chart.appendChild(svg);
+    chart.appendChild(scan);
+
+    document.body.appendChild(chart);
+
+    setTimeout(() => {
+        path.classList.add("draw");
+    }, 300);
+
+    setTimeout(() => {
+        chart.classList.add("fade-out");
+
+        setTimeout(() => {
+            chart.remove();
+        }, 600);
+
+    }, 1200);
+
+    setTimeout(() => {
+        window.open(link.href, "_blank");
+    }, 1800);
+});
+</script>
 
 </body>
 </html>
