@@ -42,17 +42,31 @@ ul {
     margin: 0;
 }
 
-li {
-    font-size: 1.2em;
+/* BUTTON STYLE */
+.survey-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 22px;
+    border:2px solid #ff7f00;
+    border-radius:14px;
+    color:#ffcc80;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:1.2em;
+    background:transparent;
+    box-shadow:0 0 12px rgba(255,127,0,.45);
+    transition:0.3s ease;
 }
 
-a {
-    color: #ffcc80;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 20px;
-    transition: color 0.3s;
+.survey-btn:hover{
+    box-shadow:0 0 22px rgba(255,127,0,.9);
+    border-color:#ff9a2f;
+    transform:scale(1.03);
+}
+
+li {
+    font-size: 1.2em;
 }
 
 a:hover {
@@ -155,9 +169,8 @@ svg {
 
     <ul>
         <li>
-            📝
-            <a id="surveyLink" href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage">
-                Zur Umfrage
+            <a class="survey-btn" id="surveyLink" href="https://sites.google.com/view/sunnysschaetze/home/formulare/umfrage">
+                📝 Zur Umfrage
             </a>
         </li>
     </ul>
