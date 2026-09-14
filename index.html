@@ -168,6 +168,271 @@ svg {
     10% { opacity: 1; }
     100% { transform: translateY(260px); opacity: 0; }
 }
+
+
+/* =========================================================
+   CURSOR-SYSTEM – REFERENZ
+   ========================================================= */
+
+.glitzer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 99999;
+    width: var(--size);
+    height: var(--size);
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            #fffde8 10%,
+            var(--color) 28%,
+            rgba(255,180,0,.60) 45%,
+            transparent 72%
+        );
+    border-radius: 50%;
+    filter:
+        drop-shadow(0 0 3px var(--color))
+        drop-shadow(0 0 7px var(--color))
+        drop-shadow(0 0 12px rgba(255,150,0,.45));
+    animation:
+        cursorTrail
+        var(--duration)
+        cubic-bezier(.15,.55,.25,1)
+        forwards;
+}
+
+.glitzer::before,
+.glitzer::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.glitzer::before {
+    width: 185%;
+    height: 14%;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,.10),
+        var(--color),
+        #ffffff,
+        var(--color),
+        rgba(255,255,255,.10),
+        transparent
+    );
+    border-radius: 999px;
+    filter: blur(.3px);
+}
+
+.glitzer::after {
+    width: 14%;
+    height: 185%;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255,255,255,.10),
+        var(--color),
+        #ffffff,
+        var(--color),
+        rgba(255,255,255,.10),
+        transparent
+    );
+    border-radius: 999px;
+    filter: blur(.3px);
+}
+
+.glitzer.long {
+    filter:
+        drop-shadow(0 0 4px #ffffff)
+        drop-shadow(0 0 7px var(--color))
+        drop-shadow(0 0 13px var(--color))
+        drop-shadow(0 0 19px rgba(255,145,0,.35));
+}
+
+.staub {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 99998;
+    width: var(--staub-size);
+    height: var(--staub-size);
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.72) 0%,
+            var(--color) 28%,
+            rgba(255,170,0,.42) 55%,
+            transparent 100%
+        );
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    box-shadow:
+        0 0 4px var(--color),
+        0 0 9px var(--color),
+        0 0 16px rgba(255,150,0,.42),
+        0 0 24px rgba(255,170,0,.18);
+    animation:
+        staubTrail
+        var(--duration)
+        ease-out
+        forwards;
+}
+
+@keyframes cursorTrail {
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translate(var(--sx), var(--sy))
+            scale(.18);
+    }
+
+    10% {
+        opacity: .95;
+        transform:
+            translate(-50%, -50%)
+            translate(var(--sx), var(--sy))
+            scale(1);
+    }
+
+    30% {
+        opacity: .85;
+        transform:
+            translate(-50%, -50%)
+            translate(var(--mx), var(--my))
+            scale(.9);
+    }
+
+    60% {
+        opacity: .48;
+        transform:
+            translate(-50%, -50%)
+            translate(var(--ex), var(--ey))
+            scale(.55);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translate(var(--ex), var(--ey))
+            scale(.08);
+    }
+}
+
+@keyframes staubTrail {
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translate(0,0)
+            scale(.2);
+    }
+
+    20% {
+        opacity: .8;
+        transform:
+            translate(-50%, -50%)
+            translate(
+                calc(var(--dx) * .25),
+                calc(var(--dy) * .25)
+            )
+            scale(1);
+    }
+
+    65% {
+        opacity: .55;
+        transform:
+            translate(-50%, -50%)
+            translate(
+                calc(var(--dx) * .65),
+                calc(var(--dy) * .65)
+            )
+            scale(.8);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            translate(
+                var(--dx),
+                var(--dy)
+            )
+            scale(.2);
+    }
+}
+
+.klick-flash {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100000;
+    background:
+        radial-gradient(
+            circle,
+            #ffffff 0%,
+            #fff6a0 25%,
+            #ffd000 50%,
+            #ff7800 75%,
+            transparent 100%
+        );
+    box-shadow:
+        0 0 5px #fff000,
+        0 0 12px #ffad00,
+        0 0 22px #ff6500;
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+    animation:
+        flash .42s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(0);
+    }
+
+    15% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%)
+            scale(1.8);
+    }
+
+    45% {
+        opacity: .8;
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%)
+            scale(.15);
+    }
+}
 </style>
 
 </head>
@@ -273,6 +538,567 @@ link.addEventListener("click", function(e) {
         window.open(link.href, "_blank");
     }, 1800);
 });
+
+
+/* =========================================================
+   CURSOR-SYSTEM – REFERENZ
+   ========================================================= */
+
+let letzteX = 0;
+let letzteY = 0;
+let letzterSpawn = 0;
+let aktiveGlitzer = 0;
+const MAX_GLITZER = 180;
+
+document.addEventListener(
+    "mousemove",
+    function(event) {
+        erzeugeBewegungsEffekt(
+            event.clientX,
+            event.clientY
+        );
+    }
+);
+
+document.addEventListener(
+    "touchmove",
+    function(event) {
+        if (!event.touches || !event.touches.length) {
+            return;
+        }
+
+        const touch = event.touches[0];
+
+        erzeugeBewegungsEffekt(
+            touch.clientX,
+            touch.clientY
+        );
+    },
+    {
+        passive: true
+    }
+);
+
+document.addEventListener(
+    "click",
+    function(event) {
+        klickEffekt(
+            event.clientX,
+            event.clientY
+        );
+    }
+);
+
+function erzeugeBewegungsEffekt(x, y) {
+    const dx = x - letzteX;
+    const dy = y - letzteY;
+
+    const entfernung = Math.sqrt(
+        dx * dx + dy * dy
+    );
+
+    const jetzt = performance.now();
+
+    if (entfernung < 2) {
+        return;
+    }
+
+    if (jetzt - letzterSpawn < 12) {
+        letzteX = x;
+        letzteY = y;
+        return;
+    }
+
+    if (aktiveGlitzer >= MAX_GLITZER) {
+        letzteX = x;
+        letzteY = y;
+        return;
+    }
+
+    const nx = dx / entfernung;
+    const ny = dy / entfernung;
+
+    const trailX = x;
+    const trailY = y;
+
+    createGlitzer(
+        trailX,
+        trailY,
+        false,
+        nx,
+        ny
+    );
+
+    createStaub(trailX, trailY);
+    createStaub(trailX, trailY);
+    createStaub(
+        trailX - nx * 6,
+        trailY - ny * 6
+    );
+    createStaub(
+        trailX - nx * 12,
+        trailY - ny * 12
+    );
+    createStaub(
+        trailX - nx * 25,
+        trailY - ny * 25
+    );
+    createStaub(
+        trailX - nx * 40,
+        trailY - ny * 40
+    );
+
+    if (Math.random() > .68) {
+        createGlitzer(
+            trailX,
+            trailY,
+            true,
+            nx,
+            ny
+        );
+    }
+
+    if (entfernung > 15) {
+        createStaub(trailX, trailY);
+
+        createStaub(
+            trailX - nx * 15,
+            trailY - ny * 15
+        );
+
+        createStaub(
+            trailX - nx * 30,
+            trailY - ny * 30
+        );
+
+        if (entfernung > 28) {
+            createStaub(
+                trailX - nx * 45,
+                trailY - ny * 45
+            );
+
+            createStaub(
+                trailX - nx * 60,
+                trailY - ny * 60
+            );
+        }
+    }
+
+    letzterSpawn = jetzt;
+    letzteX = x;
+    letzteY = y;
+}
+
+function createGlitzer(
+    x,
+    y,
+    grosser = false,
+    nx = 0,
+    ny = 0
+) {
+    if (aktiveGlitzer >= MAX_GLITZER) {
+        return;
+    }
+
+    const el = document.createElement("div");
+
+    el.className = grosser
+        ? "glitzer long"
+        : "glitzer";
+
+    const color =
+        Math.random() > .5
+            ? "#ff8500"
+            : "#ffe000";
+
+    const size = grosser
+        ? 10 + Math.random() * 5
+        : 4 + Math.random() * 4;
+
+    el.style.setProperty(
+        "--color",
+        color
+    );
+
+    el.style.setProperty(
+        "--size",
+        size + "px"
+    );
+
+    const seitlich =
+        (Math.random() - .5) * 5;
+
+    const px = -ny;
+    const py = nx;
+
+    const sx = px * seitlich;
+    const sy = py * seitlich;
+
+    const mx =
+        sx - nx * (16 + Math.random() * 16);
+
+    const my =
+        sy - ny * (16 + Math.random() * 16);
+
+    const ex =
+        mx -
+        nx * (32 + Math.random() * 35) +
+        (Math.random() - .5) * 5;
+
+    const ey =
+        my -
+        ny * (32 + Math.random() * 35) +
+        (Math.random() - .5) * 5;
+
+    el.style.setProperty(
+        "--sx",
+        sx + "px"
+    );
+
+    el.style.setProperty(
+        "--sy",
+        sy + "px"
+    );
+
+    el.style.setProperty(
+        "--mx",
+        mx + "px"
+    );
+
+    el.style.setProperty(
+        "--my",
+        my + "px"
+    );
+
+    el.style.setProperty(
+        "--ex",
+        ex + "px"
+    );
+
+    el.style.setProperty(
+        "--ey",
+        ey + "px"
+    );
+
+    const duration =
+        900 + Math.random() * 550;
+
+    el.style.setProperty(
+        "--duration",
+        duration + "ms"
+    );
+
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+
+    aktiveGlitzer++;
+
+    document.body.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+        aktiveGlitzer--;
+    }, duration + 60);
+}
+
+function createStaub(x, y) {
+    if (aktiveGlitzer >= MAX_GLITZER) {
+        return;
+    }
+
+    const el = document.createElement("div");
+
+    el.className = "staub";
+
+    const color =
+        Math.random() > .5
+            ? "#ff8500"
+            : "#ffe000";
+
+    const size =
+        1.5 + Math.random() * 2.5;
+
+    el.style.setProperty(
+        "--color",
+        color
+    );
+
+    el.style.setProperty(
+        "--staub-size",
+        size + "px"
+    );
+
+    const startX =
+        (Math.random() - .5) * 20;
+
+    const startY =
+        (Math.random() - .5) * 20;
+
+    const dx =
+        (Math.random() - .5) * 48;
+
+    const dy =
+        (Math.random() - .5) * 48;
+
+    el.style.left =
+        (x + startX) + "px";
+
+    el.style.top =
+        (y + startY) + "px";
+
+    el.style.setProperty(
+        "--dx",
+        dx + "px"
+    );
+
+    el.style.setProperty(
+        "--dy",
+        dy + "px"
+    );
+
+    const duration =
+        650 + Math.random() * 550;
+
+    el.style.setProperty(
+        "--duration",
+        duration + "ms"
+    );
+
+    aktiveGlitzer++;
+
+    document.body.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+        aktiveGlitzer--;
+    }, duration + 60);
+}
+
+function klickEffekt(x, y) {
+    const flash =
+        document.createElement("div");
+
+    flash.className = "klick-flash";
+
+    flash.style.left =
+        x + "px";
+
+    flash.style.top =
+        y + "px";
+
+    document.body.appendChild(flash);
+
+    for (let i = 0; i < 18; i++) {
+        createExplosionsGlitzer(
+            x,
+            y,
+            Math.random() > .65
+        );
+    }
+
+    for (let i = 0; i < 18; i++) {
+        createExplosionStaub(
+            x,
+            y
+        );
+    }
+
+    setTimeout(() => {
+        flash.remove();
+    }, 500);
+}
+
+function createExplosionsGlitzer(
+    x,
+    y,
+    grosser = false
+) {
+    if (aktiveGlitzer >= MAX_GLITZER) {
+        return;
+    }
+
+    const el = document.createElement("div");
+
+    el.className = grosser
+        ? "glitzer long"
+        : "glitzer";
+
+    const color =
+        Math.random() > .5
+            ? "#ff8500"
+            : "#ffe000";
+
+    const size = grosser
+        ? 13 + Math.random() * 8
+        : 7 + Math.random() * 7;
+
+    el.style.setProperty(
+        "--color",
+        color
+    );
+
+    el.style.setProperty(
+        "--size",
+        size + "px"
+    );
+
+    const winkel =
+        Math.random() * Math.PI * 2;
+
+    const distance = grosser
+        ? 55 + Math.random() * 55
+        : 35 + Math.random() * 70;
+
+    const sx =
+        (Math.random() - .5) * 6;
+
+    const sy =
+        (Math.random() - .5) * 6;
+
+    const mx =
+        Math.cos(winkel) *
+        distance *
+        .45;
+
+    const my =
+        Math.sin(winkel) *
+        distance *
+        .45;
+
+    const ex =
+        Math.cos(winkel) *
+        distance;
+
+    const ey =
+        Math.sin(winkel) *
+        distance;
+
+    el.style.setProperty(
+        "--sx",
+        sx + "px"
+    );
+
+    el.style.setProperty(
+        "--sy",
+        sy + "px"
+    );
+
+    el.style.setProperty(
+        "--mx",
+        mx + "px"
+    );
+
+    el.style.setProperty(
+        "--my",
+        my + "px"
+    );
+
+    el.style.setProperty(
+        "--ex",
+        ex + "px"
+    );
+
+    el.style.setProperty(
+        "--ey",
+        ey + "px"
+    );
+
+    const duration =
+        500 + Math.random() * 350;
+
+    el.style.setProperty(
+        "--duration",
+        duration + "ms"
+    );
+
+    el.style.left =
+        x + "px";
+
+    el.style.top =
+        y + "px";
+
+    aktiveGlitzer++;
+
+    document.body.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+        aktiveGlitzer--;
+    }, duration + 60);
+}
+
+function createExplosionStaub(x, y) {
+    if (aktiveGlitzer >= MAX_GLITZER) {
+        return;
+    }
+
+    const el = document.createElement("div");
+
+    el.className = "staub";
+
+    const color =
+        Math.random() > .5
+            ? "#ff8500"
+            : "#ffe000";
+
+    const size =
+        3 + Math.random() * 4;
+
+    el.style.setProperty(
+        "--color",
+        color
+    );
+
+    el.style.setProperty(
+        "--staub-size",
+        size + "px"
+    );
+
+    const winkel =
+        Math.random() * Math.PI * 2;
+
+    const distance =
+        35 + Math.random() * 75;
+
+    const dx =
+        Math.cos(winkel) * distance;
+
+    const dy =
+        Math.sin(winkel) * distance;
+
+    el.style.left =
+        x + "px";
+
+    el.style.top =
+        y + "px";
+
+    el.style.setProperty(
+        "--dx",
+        dx + "px"
+    );
+
+    el.style.setProperty(
+        "--dy",
+        dy + "px"
+    );
+
+    const duration =
+        450 + Math.random() * 400;
+
+    el.style.setProperty(
+        "--duration",
+        duration + "ms"
+    );
+
+    aktiveGlitzer++;
+
+    document.body.appendChild(el);
+
+    setTimeout(() => {
+        el.remove();
+        aktiveGlitzer--;
+    }, duration + 60);
+}
 </script>
 
 </body>
